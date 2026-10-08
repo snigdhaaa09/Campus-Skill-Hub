@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f7fb">
+    <meta name="description" content="A campus-wide view of student skills, projects, certifications, and achievements.">
+    <title>Campus Skill Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="#dashboard" aria-label="Campus Skill Hub home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none"><path d="M4 12.5 16 6l12 6.5L16 19 4 12.5Z" fill="currentColor"/><path d="M8 15v6.2c4.8 3.8 11.2 3.8 16 0V15l-8 4.4L8 15Z" fill="currentColor" opacity=".65"/><path d="M28 13v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </span>
+          <span class="brand-copy"><strong>Campus</strong><span>SKILL HUB</span></span>
+        </a>
+
+        <div class="nav-label">WORKSPACE</div>
+        <nav class="primary-nav" aria-label="Main navigation">
+          <a class="nav-link" href="#dashboard" data-route="dashboard"><span class="nav-icon" data-icon="grid"></span><span>Overview</span></a>
+          <a class="nav-link" href="#students" data-route="students"><span class="nav-icon" data-icon="users"></span><span>Students</span><span class="nav-count" id="student-count"></span></a>
+          <a class="nav-link" href="#skills" data-route="skills"><span class="nav-icon" data-icon="spark"></span><span>Skills</span></a>
+          <a class="nav-link" href="#projects" data-route="projects"><span class="nav-icon" data-icon="layers"></span><span>Projects</span></a>
+          <a class="nav-link" href="#certifications" data-route="certifications"><span class="nav-icon" data-icon="badge"></span><span>Certifications</span></a>
+          <a class="nav-link" href="#achievements" data-route="achievements"><span class="nav-icon" data-icon="award"></span><span>Achievements</span></a>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="sidebar-note">
+            <span class="note-icon" data-icon="light"></span>
+            <strong>Every skill tells a story.</strong>
+            <p>Explore the people and projects shaping your campus.</p>
+          </div>
+          <div class="sidebar-footer"><span class="status-dot"></span><span>Campus directory</span><span class="live-label">LIVE</span></div>
+        </div>
+      </aside>
+
+      <div class="main-column">
+        <header class="topbar">
+          <button class="mobile-menu" id="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false"><span data-icon="menu"></span></button>
+          <div class="breadcrumb"><span>Workspace</span><span class="breadcrumb-separator">/</span><strong id="page-breadcrumb">Overview</strong></div>
+          <div class="topbar-actions">
+            <label class="search-box" for="global-search">
+              <span data-icon="search"></span>
+              <input id="global-search" type="search" placeholder="Search students, skills..." autocomplete="off">
+              <kbd>⌘ K</kbd>
+            </label>
+            <button class="icon-button refresh-button" id="refresh-button" type="button" aria-label="Refresh campus data" title="Refresh data"><span data-icon="refresh"></span></button>
+            <div class="topbar-avatar" aria-label="Campus Skill Hub">CH</div>
+          </div>
+        </header>
+
+        <main id="main-content" tabindex="-1" aria-live="polite">
+          <div class="initial-loading"><span class="spinner"></span><span>Connecting to campus directory...</span></div>
+        </main>
+
+        <footer class="page-footer"><span>Campus Skill Hub</span><span>Showcasing talent. Building community.</span></footer>
+      </div>
+    </div>
+  </body>
+</html>
