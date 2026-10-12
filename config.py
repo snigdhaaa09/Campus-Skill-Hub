@@ -1,9 +1,6 @@
+ 
 import os
 from urllib.parse import quote_plus
-
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 class Config:
@@ -18,11 +15,15 @@ class Config:
     if MYSQL_HOST and MYSQL_PORT and MYSQL_USER and MYSQL_DATABASE:
         SQLALCHEMY_DATABASE_URI = (
             "mysql+mysqldb://"
-            f"{MYSQL_USER}:{quote_plus(MYSQL_PASSWORD)}"
+            f"{quote_plus(MYSQL_USER)}:{quote_plus(MYSQL_PASSWORD)}"
             f"@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DATABASE}"
         )
-    else:
-        SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
 
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_ENGINE_OPTIONS = {"pool_pre_ping": True}
+    MYSQL_SSL_CA = os.getenv("MYSQL_SSL_CA", "")
+
+    if MYSQL_SSL_CA:
+        SQLALCHEMY_ENGINE_OPTIONS = {
+            "connect_args": {
+                "ssl": {"ca": MYSQL_SSL_CA}
+            }
+        }

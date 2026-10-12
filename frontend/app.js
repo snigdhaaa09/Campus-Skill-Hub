@@ -183,8 +183,15 @@ function updateNavigation() {
 }
 
 function initials(name) {
-  return String(name || "?").trim().split(/\s+/).slice(0, 2).map((part) => part[0] || "").join("").toUpperCase();
+return String(name || "?")
+.trim()
+.split(/\s+/)
+.slice(0, 2)
+.map((part) => part[0] || "")
+.join("")
+.toUpperCase();
 }
+
 
 function avatar(student, sizeClass = "") {
   const colors = ["", "avatar-teal", "avatar-gold", "avatar-purple", "avatar-rose"];
@@ -211,17 +218,32 @@ function fullDate(value) {
 }
 
 function studentPath(studentId) {
-  window.location.hash = `student/${studentId}`;
+window.location.hash = `student/${studentId}`;
 }
 
 function filteredStudents() {
   const term = state.search.trim().toLowerCase();
+
   if (!term) return state.students;
+
   return state.students.filter((student) => [
-    student.name, student.email, student.department, student.year,
-    ...(student.skills || []).map((skill) => skill.name)
-  ].some((value) => String(value ?? "").toLowerCase().includes(term)));
+    student.name,
+    student.email,
+    student.department,
+    student.year,
+    ...(student.skills || []).map((skill) =>
+      typeof skill === "string" ? skill : skill.name
+    ),
+    ...(student.projects || []).flatMap((project) => [
+      project.title,
+      project.description,
+      project.tech_stack
+    ])
+  ].some((value) =>
+    String(value ?? "").toLowerCase().includes(term)
+  ));
 }
+
 
 function pageHeading(eyebrow, title, description, extra = "") {
   return `<div class="page-heading"><div><div class="eyebrow">${escapeHtml(eyebrow)}</div><h1>${escapeHtml(title)}</h1><p>${escapeHtml(description)}</p></div>${extra}</div>`;
@@ -254,7 +276,21 @@ function dashboard() {
   const studentTotal = state.students.length;
   const dateLabel = new Intl.DateTimeFormat(undefined, { weekday: "long", month: "long", day: "numeric" }).format(new Date());
 
-  return `${pageHeading("CAMPUS SNAPSHOT", `Good ${greeting()},`, "A live look at the talent, ideas, and achievements across your campus.", `<div class="heading-date"><strong>${escapeHtml(dateLabel)}</strong></div>`)}
+  return `<section class="welcome-panel" aria-labelledby="dashboard-title">
+      <div class="welcome-copy">
+        <div class="eyebrow">CAMPUS SNAPSHOT</div>
+        <h1 id="dashboard-title">Good ${greeting()}, campus.</h1>
+        <p>A clear view of the people, skills, and work shaping your community.</p>
+        <a class="welcome-action" href="#students">Explore the directory ${icon("arrow")}</a>
+      </div>
+      <div class="welcome-aside">
+        <span class="welcome-icon">${icon("users")}</span>
+        <span class="welcome-label">Student directory</span>
+        <strong>${studentTotal}</strong>
+        <span class="welcome-caption">${studentTotal === 1 ? "student profile" : "student profiles"}</span>
+      </div>
+      <div class="welcome-date">${escapeHtml(dateLabel)}</div>
+    </section>
     <section class="metric-grid" aria-label="Campus statistics">
       ${metricCard("Students", studentTotal, "In the campus directory", "users", "")}
       ${metricCard("Skills", state.skills.length, "Distinct skills represented", "spark", "green")}
@@ -288,14 +324,15 @@ function metricCard(label, value, caption, iconName, color) {
 
 function studentsPage() {
   const students = filteredStudents();
-  const cards = students.map((student) => `<article class="directory-card" data-student="${escapeHtml(student.id)}" role="link" tabindex="0" aria-label="View ${escapeHtml(student.name)}'s profile">
-    <div class="card-top">${avatar(student)}<span class="tag">${escapeHtml(student.year ? `Year ${student.year}` : "Student")}</span></div>
-    <h2 class="student-card-name">${escapeHtml(student.name || "Unnamed student")}</h2>
-    <div class="student-card-detail">${escapeHtml(student.department || "Department not provided")}</div>
-    <div class="card-divider"></div>
-    <div class="card-bottom"><span>${escapeHtml(student.email || "Email not provided")}</span><span>${(student.skills || []).length} skills</span></div>
+  const rows = students.map((student) => `<article class="directory-row" data-student="${escapeHtml(student.id)}" role="link" tabindex="0" aria-label="View ${escapeHtml(student.name)}'s profile">
+    <div class="directory-student">${avatar(student)}<div class="directory-student-copy"><strong>${escapeHtml(student.name || "Unnamed student")}</strong><span>${escapeHtml(student.email || "Email not provided")}</span></div></div>
+    <div class="directory-department"><span class="directory-mobile-label">Department</span><span>${escapeHtml(student.department || "Department not provided")}</span></div>
+    <div class="directory-year"><span class="directory-mobile-label">Year</span><span class="tag">${escapeHtml(student.year ? `Year ${student.year}` : "Student")}</span></div>
+    <div class="directory-skills"><span class="directory-mobile-label">Skills</span><span class="directory-skill-count">${(student.skills || []).length} ${(student.skills || []).length === 1 ? "skill" : "skills"}</span></div>
+    <span class="directory-arrow">${icon("chevron")}</span>
   </article>`).join("");
-  return `${pageHeading("CAMPUS DIRECTORY", "Students", "Meet the people behind the skills, projects, and accomplishments.")}<div class="section-toolbar"><span class="result-count">${students.length} ${students.length === 1 ? "student" : "students"}${state.search ? ` matching “${escapeHtml(state.search)}”` : " in the directory"}</span></div>${cards ? `<section class="card-grid" aria-label="Students">${cards}</section>` : emptyState("No students found", state.search ? "Try a different search term." : "The student directory is empty. Student records will appear here when available.", "users")}`;
+
+  return `${pageHeading("CAMPUS DIRECTORY", "Students", "Meet the people behind the skills, projects, and accomplishments.")}<div class="section-toolbar"><span class="result-count">${students.length} ${students.length === 1 ? "student" : "students"}${state.search ? ` matching ?${escapeHtml(state.search)}?` : " in the directory"}</span></div>${rows ? `<section class="directory-table" aria-label="Students"><div class="directory-table-head"><span>Student</span><span>Department</span><span>Year</span><span>Skills</span><span></span></div><div class="directory-list">${rows}</div></section>` : emptyState("No students found", state.search ? "Try a different search term." : "The student directory is empty. Student records will appear here when available.", "users")}`;
 }
 
 function getSkillUsage() {

@@ -1,4 +1,9 @@
-venv/
+-venv/
+.venv/
 .env
+.env.*
+!.env.example
+backup-.env
+ca.pem
 __pycache__/
 *.pyc
