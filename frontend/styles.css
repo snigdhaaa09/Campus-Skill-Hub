@@ -367,3 +367,275 @@ main { margin: 0 auto; max-width: 1480px; min-height: calc(100vh - 120px); paddi
   .directory-year, .directory-skills { flex-direction: row; gap: 7px; }
   .directory-arrow { position: absolute; right: 13px; top: 25px; }
 }
+
+
+/* --------------------------------------------------------------------------
+   Campus Skill Hub — refined visual layer
+   Keeps the existing selectors and interactions; no backend changes required.
+   -------------------------------------------------------------------------- */
+:root {
+  --ink: #172638;
+  --muted: #748193;
+  --muted-dark: #536274;
+  --line: #e6e9ef;
+  --surface: #ffffff;
+  --canvas: #f6f7fb;
+  --navy: #171d35;
+  --navy-raised: #222945;
+  --teal: #6266d9;
+  --teal-dark: #4d52c7;
+  --teal-light: #eeefff;
+  --gold: #b98236;
+  --shadow: 0 16px 40px rgba(27, 35, 67, .075);
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 78% 0%, rgba(98, 102, 217, .045), transparent 34rem),
+    var(--canvas);
+  color: var(--ink);
+}
+
+::selection {
+  background: rgba(98, 102, 217, .18);
+}
+
+.sidebar {
+  background: linear-gradient(165deg, #171d35 0%, #1b2542 100%);
+  border-right: 1px solid rgba(255,255,255,.055);
+  padding-top: 25px;
+}
+
+.brand-mark {
+  background: linear-gradient(145deg, #f0f0ff, #dfe2ff);
+  color: #4d52c7;
+  box-shadow: 0 6px 18px rgba(0,0,0,.12);
+}
+
+.nav-link {
+  border-radius: 11px;
+  min-height: 46px;
+}
+
+.nav-link.active {
+  background: linear-gradient(100deg, rgba(110,114,231,.24), rgba(110,114,231,.11));
+  border-color: rgba(153,156,255,.2);
+  box-shadow: inset 3px 0 0 #9295ff;
+}
+
+.nav-link.active .nav-icon {
+  color: #b7b9ff;
+}
+
+.sidebar-note {
+  background: linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.035));
+  border-color: rgba(255,255,255,.09);
+}
+
+.status-dot {
+  background: #5dd6b0;
+  box-shadow: 0 0 0 4px rgba(93,214,176,.12);
+}
+
+.topbar {
+  background: rgba(255,255,255,.88);
+  border-bottom-color: #e9ebf2;
+}
+
+.search-box {
+  background: #f7f8fc;
+  border-color: #e9ebf2;
+}
+
+.search-box:focus-within {
+  border-color: #a9abf2;
+  box-shadow: 0 0 0 3px rgba(98,102,217,.11);
+}
+
+.icon-button:hover,
+.mobile-menu:hover {
+  background: var(--teal-light);
+  border-color: #d5d6ff;
+  color: var(--teal-dark);
+}
+
+main {
+  padding-top: 34px;
+}
+
+.page-heading h1,
+.welcome-copy h1 {
+  letter-spacing: -1.05px;
+}
+
+.welcome-panel {
+  background:
+    radial-gradient(circle at 88% 12%, rgba(113,116,231,.12), transparent 13rem),
+    linear-gradient(115deg, #fff 0%, #f5f5ff 100%);
+  border: 1px solid #e6e7fb;
+  border-left: 4px solid #6266d9;
+  box-shadow: 0 8px 26px rgba(35, 42, 91, .045);
+}
+
+.welcome-panel::after {
+  border-color: rgba(98,102,217,.11);
+}
+
+.welcome-action,
+.text-link {
+  color: var(--teal-dark);
+}
+
+.welcome-aside {
+  border-color: #e8e8fb;
+  box-shadow: 0 8px 22px rgba(35,42,91,.035);
+}
+
+.metric-card,
+.panel,
+.directory-card,
+.record-card,
+.skill-card,
+.profile-stat,
+.profile-section,
+.profile-hero,
+.directory-table {
+  border-color: #e7e9f1;
+  box-shadow: 0 5px 18px rgba(31, 39, 75, .025);
+}
+
+.metric-card,
+.directory-card,
+.record-card,
+.skill-card,
+.panel,
+.profile-stat,
+.profile-section {
+  border-radius: 15px;
+}
+
+.metric-card:hover,
+.record-card:hover,
+.directory-card:hover {
+  box-shadow: 0 14px 30px rgba(31, 39, 75, .075);
+}
+
+.metric-icon,
+.metric-card:nth-child(1) .metric-icon,
+.metric-card:nth-child(2) .metric-icon,
+.metric-card:nth-child(4) .metric-icon,
+.record-icon,
+.record-icon.teal,
+.skill-card-icon,
+.empty-icon {
+  background: #eeefff;
+  color: #5559cb;
+}
+
+.metric-icon.green {
+  background: #e4f6ef;
+  color: #218466;
+}
+
+.metric-icon.gold,
+.record-icon.gold {
+  background: #fbf1df;
+  color: #a67530;
+}
+
+.skill-fill {
+  background: linear-gradient(90deg, #6266d9, #9a9cf2);
+}
+
+.quick-stat {
+  background: #f7f7ff;
+  border-color: #ebecfb;
+}
+
+.tag,
+.tag.teal,
+.member-pill {
+  background: #eeefff;
+  color: #5156bd;
+}
+
+.tag.gold {
+  background: #fbf1df;
+  color: #95661f;
+}
+
+.avatar {
+  background: #eeefff;
+  color: #5559cb;
+}
+
+.avatar.avatar-teal {
+  background: #e2f4ef;
+  color: #168574;
+}
+
+.profile-hero {
+  background: linear-gradient(115deg, #fff 0%, #f7f7ff 100%);
+}
+
+.directory-table-head {
+  background: #f7f8fc;
+}
+
+.directory-row:hover,
+.student-row:hover {
+  background: #f8f8ff;
+}
+
+.retry-button {
+  background: #5559cb;
+}
+
+.retry-button:hover {
+  background: #4145ad;
+}
+
+@media (min-width: 1500px) {
+  main {
+    padding-top: 42px;
+  }
+  .welcome-panel {
+    min-height: 205px;
+  }
+}
+
+@media (max-width: 850px) {
+  .topbar {
+    backdrop-filter: blur(16px);
+  }
+  main {
+    padding-top: 28px;
+  }
+}
+
+@media (max-width: 620px) {
+  .welcome-panel {
+    border-left-width: 3px;
+  }
+  .metric-card,
+  .directory-card,
+  .record-card,
+  .skill-card {
+    border-radius: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .panel,
+  .metric-card,
+  .directory-card,
+  .record-card,
+  .skill-card,
+  .profile-stat,
+  .profile-section {
+    transition:
+      border-color .18s ease,
+      box-shadow .18s ease,
+      transform .18s ease;
+  }
+}
