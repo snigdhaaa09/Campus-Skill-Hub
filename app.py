@@ -1,4 +1,12 @@
+import os
+from pathlib import Path
 from datetime import date
+from dotenv import load_dotenv
+
+load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env")
+
+
+
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -6,11 +14,13 @@ from sqlalchemy import inspect, text
 
 from config import Config
 from extensions import db
+
 from models import Achievement, Certification, Project, Skill, Student, StudentSkill
 
 app = Flask(__name__)
 app.config.from_object(Config)
 app.json.sort_keys = False
+
 CORS(app)
 db.init_app(app)
 
@@ -849,4 +859,9 @@ if __name__ == "__main__":
             print(f"  - {name}")
         print("The health endpoint will still run. Database features will fail until this is fixed.")
 
-    app.run(host="127.0.0.1", port=5000, debug=True)
+
+app.run(
+    host="0.0.0.0",
+    port=int(os.environ.get("PORT", 5000)),
+    debug=False
+)
